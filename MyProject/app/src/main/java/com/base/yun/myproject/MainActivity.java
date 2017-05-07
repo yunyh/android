@@ -1,9 +1,15 @@
 package com.base.yun.myproject;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.base.yun.myproject.base.BaseActivity;
+
+public class MainActivity extends BaseActivity<MainActivityViewModel> {
+
+    @Override
+    protected MainActivityViewModel createViewModel() {
+        return new MainActivityViewModel();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
