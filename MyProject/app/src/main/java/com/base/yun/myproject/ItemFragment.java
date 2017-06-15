@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -16,10 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.base.yun.myproject.dummy.DummyContent;
-import com.base.yun.myproject.dummy.DummyContent.DummyItem;
+import com.base.yun.myproject.helper.SimpleGestureDetectorHelper;
 import com.base.yun.myproject.helper.SimpleItemTouchHelper;
-
-import java.util.List;
 
 public class ItemFragment extends Fragment implements View.OnTouchListener {
 
@@ -62,51 +59,18 @@ public class ItemFragment extends Fragment implements View.OnTouchListener {
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, this));
-            ItemTouchHelper.Callback callback = new SimpleItemTouchHelper();
+            ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(10.0f, 0.0f);
 
             final ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-
-
-           final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener(){
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                   /* if (MotionEventCompat.getActionMasked(e) == MotionEvent.ACTION_DOWN) {
-                        View childView = rv.findChildViewUnder(e.getX(), e.getY());
-                        if (childView != null) {
-                            RecyclerView.ViewHolder viewHolder = rv.getChildViewHolder(childView);
-                            if (viewHolder != null) {
-                                touchHelper.startDrag(viewHolder);
-                            }
-                        }
-                    }*/
-                    Log.d("ItemFragment", "onSingleTapUp : " + e.toString());
-                    return super.onSingleTapUp(e);
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    Log.d("ItemFragment", "onLongPress : " + e.toString());
-                    super.onLongPress(e);
-                }
-
-               @Override
-               public void onShowPress(MotionEvent e) {
-                   super.onShowPress(e);
-               }
-           });
-
-
+            final SimpleGestureDetectorHelper gestureDetector = new SimpleGestureDetectorHelper(getContext());
             recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                 @Override
                 public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                 //   Log.d("ItemFragment", "onInterceptTouchEvent : " + e.toString());
-                    gestureDetector.onTouchEvent(e);
-                    return false;
+                    return gestureDetector.onTouchEvent(rv, e);
                 }
 
                 @Override
                 public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-                   // Log.d("ItemFragment", "onTouchEvent : " + e.toString());
 
                 }
 
