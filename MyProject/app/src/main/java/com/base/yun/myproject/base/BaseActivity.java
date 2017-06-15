@@ -26,14 +26,14 @@ public abstract class BaseActivity<V extends ActivityViewModel> extends AppCompa
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mViewModel = createViewModel();
+        mViewModel.intent(getIntent());
     }
 
     @CallSuper
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel.intent(getIntent());
+        mViewModel = createViewModel();
     }
 
     @CallSuper
